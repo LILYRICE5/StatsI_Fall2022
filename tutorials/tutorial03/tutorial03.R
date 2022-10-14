@@ -42,7 +42,7 @@ dat <- readRDS("movies.RDS")
 # To create a contingency table, we use the `table()` function.
 # We can also wrap the call in the `with()` function to avoid
 # having to call the $ operator.
-with(dat, table(genre, critics_rating))
+with(movies, table(genre, critics_rating))
 
 # If we want to add margins to the table, we can use the 
 # addmargins() function as a wrapper to table().

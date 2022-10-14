@@ -6,6 +6,8 @@
 library(tidyverse) # Load our packages here
 library(broom) # If not installed - function for installing?
 
+install.packages("broom")
+
 ?tidyverse
 browseVignettes(package = "tidyverse")
 
@@ -17,6 +19,15 @@ browseVignettes(package = "tidyverse")
 # we can read in a csv file using the read_csv() function, which is 
 # similar to base R's read.csv() function.
 dat <- read.csv("movies.csv")
+
+dat1 <- read_csv("movies.csv")
+
+class(dat1)
+class(dat)
+
+dat
+
+dat1
 
 ##########
 # Exercise
@@ -76,10 +87,22 @@ dat %>%
 # column. Which is the most popular month for Horror films to be 
 # released?
 
+dat %>%
+  filter(genre == "Horror") %>% # filter on the rows
+  select(thtr_rel_month) %>% # select one column
+  mutate(month = month.abb[thtr_rel_month]) %>% # change to month abbreviation
+  group_by(month) %>% # group data by month
+  summarise(n = n()) %>% # perform a summary operation (count the n per month)
+  arrange(desc(n)) # sort in descending order
 
 # 2. Using the dplyr commands you have learned, find the actor 
 # (actor1) with the most award wins. 
 
+dat %>%
+  filter(best_actor_win == "yes") %>% # filter on the rows
+  group_by(actor1) %>% # group by
+  summarise(n = n()) %>% # perform a summary operation (count the n per month)
+  arrange(desc(n)) # sort in descending order
 
 #######################
 # Complex operations...
@@ -97,7 +120,7 @@ dat %>%
   mutate(month = month.abb[thtr_rel_month]) %>% 
   group_by(month) %>% 
   summarise(n = n()) %>%
-  mutate(prop_month = round(n / sum(n), 2)) %>% # mutate after our summarise to find the proportion
+  mutate(prop_month = round(n / sum(n), 3)) %>% # mutate after our summarise to find the proportion
   arrange(desc(prop_month))
 
 ##########
@@ -106,6 +129,13 @@ dat %>%
 
 # Using the code above as a template, perform the same operation on 
 # a subset of horror films
+dat %>%
+  filter(genre == "Horror") %>% # filter on the rows
+  mutate(month = month.abb[thtr_rel_month]) %>% 
+  group_by(month) %>% 
+  summarise(n = n()) %>%
+  mutate(prop_month = round(n / sum(n), 3)) %>% # mutate after our summarise to find the proportion
+  arrange(desc(prop_month))
 
 
 #############
@@ -154,4 +184,33 @@ dat %>%
 # Are feature films getting longer? Use the dplyr functions you've 
 # learned about today to find out whether the average running time 
 # of feature films has increased in recent years.
+
+dat %>%
+  filter(thtr_rel_year> 1995 & thtr_rel_year < 1999) %>%
+  filter(runtime > 120) %>%
+  select(title, runtime) %>%
+  arrange(desc(runtime))
+
+dat %>%
+  filter(best_pic_win == "yes") %>%
+  summarise(mean_run_time = mean(runtime), 
+            n = n(),
+            sd = sd(runtime))
+
+dat %>%
+  summarise(mean_run_time = mean(runtime, na.rm = TRUE), 
+            n = n(),
+            sd = sd(runtime, na.rm = TRUE))
+
+# to find if stat sig, compare 2 means, we need 
+#1: 2 means
+#2: sample sizes
+#3: standard deviations
+
+## then we need to calc the standard error, want to do t test because only 7 observations
+
+?t.test
+
+##2 find sample sizes
+
 
