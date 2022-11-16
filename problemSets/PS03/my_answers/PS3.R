@@ -33,3 +33,4 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 # read in data
 inc.sub <- read.csv("https://raw.githubusercontent.com/ASDS-TCD/StatsI_Fall2022/main/datasets/incumbents_subset.csv")
 
+# At this point - I have run all code from above
