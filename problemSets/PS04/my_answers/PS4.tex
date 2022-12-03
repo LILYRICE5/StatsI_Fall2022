@@ -98,34 +98,85 @@ help(Prestige)
 	
 	\item [(a)]
 	Create a new variable \texttt{professional} by recoding the variable \texttt{type} so that professionals are coded as $1$, and blue and white collar workers are coded as $0$ (Hint: \texttt{ifelse}).
+	\vspace{1cm}
 	
-	\vspace{6cm}
+	I created this new variable "professional" with the following code:
+	\lstinputlisting[language=R, firstline=25, lastline=25]{PS04_my_answers_LR.R} 
+	
+	I then added this variable as a column to the Prestige dataset, creating a new dataset entitled: "Prestige\_plus\_prof". The code for how I did this is below:
+	\lstinputlisting[language=R, firstline=31, lastline=31]{PS04_my_answers_LR.R} 
+	
+	\vspace{1cm}
 	
 	
 	\item [(b)]
 	Run a linear model with \texttt{prestige} as an outcome and \texttt{income}, \texttt{professional}, and the interaction of the two as predictors (Note: this is a continuous $\times$ dummy interaction.)
 	
-	\vspace{6cm}
+	I ran this linear model with the below code:
+	\lstinputlisting[language=R, firstline=39, lastline=40]{PS04_my_answers_LR.R}
+	
+	The summary of this regression output is:
+	\begin{verbatim}
+	Call:lm(formula = prestige ~ income + professional + income:professional,    
+	 data = Prestige_plus_prof)
+	
+	Residuals:    
+	Min      1Q  Median      3Q     Max 
+	-14.852  -5.332  -1.272   4.658  29.932
+	Coefficients:                      
+	                     Estimate Std. Error t value Pr(>|t|)    
+	             
+	(Intercept)         21.1422589  2.8044261   7.539 2.93e-11 ***
+	income               0.0031709  0.0004993   6.351 7.55e-09 ***
+	professional        37.7812800  4.2482744   8.893 4.14e-14 ***
+	income:professional -0.0023257  0.0005675  -4.098 8.83e-05 ***
+	---
+	Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+	Residual standard error: 8.012 on 94 degrees of freedom  
+	(4 observations deleted due to missingness)
+	Multiple R-squared:  0.7872,	Adjusted R-squared:  0.7804 
+	F-statistic: 115.9 on 3 and 94 DF,  p-value: < 2.2e-16
+	\end{verbatim} 
+	
+	\vspace{2cm}
+	
 	\item [(c)]
 	Write the prediction equation based on the result.
 	
-\newpage
+	The prediction equation based on this result is:
+\begin{verbatim}
+(prestige) = (21.142) + (0.003)(income) +
+         (37.781)(professional)  + (-0.002)(income*professional)
+\end{verbatim}
+	
+
 	\item [(d)]
 	Interpret the coefficient for \texttt{income}.
 	
-	\vspace{10cm}	
+	The coefficient of 0.003 for income means that for every one unit increase in 
+	prestige, there is an average increase in income of 0.003 cents, holding the professional variable constant.
+	
+	\vspace{1cm}	
+	
 	\item [(e)]
 	Interpret the coefficient for \texttt{professional}.
 	
-	\newpage
+	The coefficient of 37.781 for professional means that for every one unit increase
+	in prestige (the outcome variable), there is on average an 37.781 percent chance that the professional variable will move from 0 to 1.
+	
 	\item [(f)]
 	What is the effect of a \$1,000 increase in income on prestige score for professional occupations? In other words, we are interested in the marginal effect of income when the variable \texttt{professional} takes the value of $1$. Calculate the change in $\hat{y}$ associated with a \$1,000 increase in income based on your answer for (c).
 	
-	\vspace{10cm}
+	The marginal effect if a 1000 dollar increase in income on prestige when the variable of 
+	of professional is 1 is 59.923. This means that when someone with a professional occupation's income increases by \$1000, their prestige score is predicted to be 59.923 higher on average.
+	
+	\vspace{1cm}
 	
 	
 	\item [(g)]
 	What is the effect of changing one's occupations from non-professional to professional when her income is \$6,000? We are interested in the marginal effect of professional jobs when the variable \texttt{income} takes the value of $6,000$. Calculate the change in $\hat{y}$ based on your answer for (c).
+	
+	When income is \$6000, the effect of changing occupations from non-professional (0) to professional (1) is an on average increase in prestige score from 39.142 to 64.923. In other words, an on average increase in prestige score of 25.781 occurs when income remains at \$6000, but an occupation changes from non-professional to professional.
 	
 	
 \end{enumerate}
@@ -158,20 +209,86 @@ a precinct that was adjacent to a precinct in the treatment group (since people 
 	\footnotesize{\textit{Notes:} $R^2$=0.094, N=131}
 \end{table}
 
-\vspace{.5cm}
+\vspace{10cm}
 \begin{enumerate}
 	\item [(a)] Use the results from a linear regression to determine whether having these yard signs in a precinct affects vote share (e.g., conduct a hypothesis test with $\alpha = .05$).
+	
+	I conducted a t-test because I want to test if there is a relationship between the outcome (voteshare) and one of the variables in this model (x1, or actually having signs in a precinct). 
+	
+	First, I identify my Hypotheses:
+
+	H0: (beta of x1) = 0;
+	Ha: (beta of x1) =/= 0
+	
+	Second, I calculate the Test Statistic (t\_x1) which equals b of x1 / se of x1
+	
+	I calculated t\_x1 with the following code in R:
+	
+	\lstinputlisting[language=R, firstline=82, lastline=82]{PS04_my_answers_LR.R}
+	
+	t\_x1 = 2.625
+	
+	Third, I calculated the P value (pval\_x1) with the following code in R:
+	
+	\lstinputlisting[language=R, firstline=86, lastline=86]{PS04_my_answers_LR.R}
+	
+	pval\_x1 = 0.0139
+	
+	 Alpha = 0.05, and pval\_x1 = 0.0139; meaning pval\_x1 $<$ alpha, so we can reject H0. We can reject the null hypothesis that voteshare is not affected by sign presence in a precinct. Instead, this indicates there is some degree of linear relationship between this explanatory variable and the outcome variable (voteshare).
 	
 	\newpage		
 	\item [(b)]  Use the results to determine whether being
 	next to precincts with these yard signs affects vote
 	share (e.g., conduct a hypothesis test with $\alpha = .05$).
 	
-	\vspace{7cm}
+	Again, conduct t-test but on 2nd variable now (x2):
+	First, Hypotheses. H0: beta x2 = 0 ; Ha: beta x2 =/= 0
+	
+	Second, Calculate Test Stat (t\_x2) = b of x2 / se of x2 
+	
+	I calculate the Test Statistic with the following code in R:
+	
+	\lstinputlisting[language=R, firstline=97, lastline=97]{PS04_my_answers_LR.R}
+	
+	t\_x2 = 3.231
+	
+	Third, I calculate the p-value with the following code:
+	\lstinputlisting[language=R, firstline=101, lastline=101]{PS04_my_answers_LR.R}
+	
+	pval\_x2 = 0.002
+	
+	Conclusion: pval is 0.002 and alpha is 0.05, so pval\_x2 $<$ alpha, so again can reject H0. The effect is significant.
+	We can reject the null hypothesis that being a precinct beside one with signs does not have impact
+	on voteshare. Instead, it does seem that being a precinct adjacent to one with signs has some degree of a linear relationship with the outcome variable, voteshare.
+	
+	\vspace{2cm}
 	\item [(c)] Interpret the coefficient for the constant term substantively.
-	\vspace{7cm}
+	
+	The coefficient for the constant term is 0.302. This is the value on the y-axes (voteshare) when the value of both predictor/explanatory variables is 0. Basically, the proportion of votes that go to Ken C. is 0.302 in precincts with no signs posted that are also not adjacent to any precincts with signs posted.
+	
+	\vspace{10cm}
 	
 	\item [(d)] Evaluate the model fit for this regression.  What does this	tell us about the importance of yard signs versus other factors that are not modeled?
+	
+	First, I conducted an overall F-test just to see generally if the regression model is at all useful in explaining variation in the outcome variable. We somewhat already know there is some relationship between the independent variables and the outcome through our t-test results, but this is an additional check. When we reject the overall f test, it indicates that at least one of our predictors does have some kind of linear relationship with the outcome. 
+	
+	For this F test, I first listed my hypotheses. H0 = the sum of all coefficient slopes is 0. Ha = at least one of the coefficient slopes =/= 0.
+	
+	Second, I calculated the F Test Statistic with the following code:
+	
+	\lstinputlisting[language=R, firstline=120, lastline=120]{PS04_my_answers_LR.R}
+	
+	F\_Stat = 13.384
+	
+	Third, I calculated the F p-value with the following code:
+	
+	\lstinputlisting[language=R, firstline=124, lastline=127]{PS04_my_answers_LR.R}
+	
+	F\_pval = 0.00018
+	
+	This is very close to 0, which is an indication that we can reject our H0, and it is likely that at least one of our explanatory variables is related to our outcome variable. 
+	
+	In conclusion however, the R squared value is very small (0.094). While both variables do seem to have a linear relationship with the outcome (according to our t- and F- tests), the proportion of variance in outcome (voteshare) that can be explained by this model is quite low (this is what is explained with R squared); thus other variables should be added to the model as they may have more explanatory power / may give the model better fit.
 	
 \end{enumerate}  
 
