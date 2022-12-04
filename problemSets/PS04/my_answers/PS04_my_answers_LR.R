@@ -46,25 +46,25 @@ summary(interact_reg)
 ### + (-0.002)(income * professional)
 
 # 1(D) INTERPRET THE COEFFICIENT FOR INCOME
-## Answer: The coefficient of 0.003 for income means that for every one unit increase in 
-## prestige, there is an average increase in income of 0.003 cents. 
+## Answer: The coefficient of 0.003 for income means that for every one dollar increase in 
+## income, there is an average increase in prestige of 0.003. 
 
 # 1(E) INTERPRET THE COEFFICIENT FOR PROFESSIONAL
 ## Answer: The coefficient of 37.781 for professional means that for every one unit increase
-## in prestige (the outcome variable), there is on average an increase in  37.781 
+## in professional (the predictor variable), there is on average an increase in prestige score of 37.781, holding the other variables constant.
 
-# 1(F) WHAT IS THE EFFECT OF A $1000 INCREASE IN INCOME ON PRESTIGE SCORE FOR PROFESSIONAL
-# OCCUPATIONS? IN OTHER WORDS...WHAT'S THE MARGINAL EFFECT OF INCOME WHEN THE VARIABLE 
-# PROFESSIONAL TAKES THE VALUE OF 1? CALCULATE THE CHANGE IN YHAT ASSOCIATED WITH A $1000 
-# INCREASE IN INCOME BASED ON YOUR ANSWER FOR C.
+# 1(F) WHAT IS THE EFFECT OF A $1000 INCREASE IN INCOME ON PRESTIGE SCORE FOR PROFESSIONAL occs?
+y_1f1 <- 21.142 + (0.003*0) + (37.781*1) - (0.002*0*1)
+y_1f2 <- 21.142 + (0.003*1000) + (37.781*1) - (0.002*1000*1)
+Answer_1f <- y_1f2 - y_1f1 
 ## Answer: The marginal effect if a 1000 dollar increase in income on prestige when the variable of 
-## of professional is 1 is 59.923. This means that when a professional's income increases by $1000, 
-## their prestige score is predicted to be 59.923 higher.
+## of professional is 1 is 1. This means that when a professional's income increases by $1000, 
+## their prestige score is predicted to increase by 1.
 
-# 1(G) WHAT IS THE EFFECT OF CHANGING ONE'S OCCUPATIONS FROM NON-PROFESSIONAL TO PROF WHEN
-# HER INCOME IS $6000? ...THE MARGINAL EFFECT OF PROFESSIONAL JOBS WHEN THE VARIABLE INCOME 
-# TAKES THE VALUE OF $6000. CALCULATE THE CHANGE IN YHAT BASED ON YOUR ANSWER FOR C.
-
+# 1(G) WHAT IS THE EFFECT OF CHANGING ONE'S OCCUPATIONS FROM NON-PROFESSIONAL TO PROF WHEN HER INCOME IS $6000? 
+y_1g1 <- 21.142 + (0.003*6000) + (37.781*0) - (0.002*6000*0)
+y_1g2 <- 21.142 + (0.003*6000) + (37.781*1) - (0.002*6000*1)
+Answer_1g <- y_1g2 - y_1g1
 ## Answer: When income is $6000, the effect of chenging occupations from non-prof (0) to prof (1)
 ## is an on average increase in prestige score from 39.142 to 64.923. In other words, an on average 
 ## increase in prestige score of 25.781.
@@ -83,7 +83,7 @@ t_x1 <- 0.042/0.016
   
 ## Third: calc P val 
 
-pval_x1 <- 2*pt(abs(t_x1), 28, lower.tail = F)
+pval_x1 <- 2*pt(abs(t_x1), 131-2-1, lower.tail = F)
 
 ## this equals 0.013; alpha = 0.05, so pval_x1 < alpha, so we can reject the H0, the effect is significant
 ## We can reject the null hypothesis that having signs in a precinct does not affect voteshare
@@ -98,7 +98,7 @@ t_x2 <- 0.042/0.013
 
 ## Third, calculate P val
 
-pval_x2 <- 2*pt(abs(t_x2), 74, lower.tail = F)
+pval_x2 <- 2*pt(abs(t_x2), 131-2-1, lower.tail = F)
 
 ## pval is 0.002; alpha is 0.05, so pval_x2 < alpha, so again can reject H0. The effect is significant.
 ## We can reject the null hypothesis that being a precinct beside one with signs does not have impact
